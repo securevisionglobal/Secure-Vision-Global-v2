@@ -40,7 +40,7 @@ function Home() {
           <div className={styled.forempleft}>
             <h1>For Employers</h1>
             <p>
-              Find professionals from around the world and across all skills.
+              Search for experts with different abilities around India.
             </p>
           </div>
           <div className={styled.forempright}>
