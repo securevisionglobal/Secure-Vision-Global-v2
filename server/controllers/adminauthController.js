@@ -1,8 +1,33 @@
 const bcrypt = require("bcrypt");
 const adminModels = require("../models/admin-models");
+const userModel = require("../models/hr-models");
 const generateToken = require("../utils/generateToken");
 
 
+module.exports.registerUser = async(req, res)=>{
+    const {name, empId, contact, password} = req.body;
+    try{
+        let user = await userModel.findOne({empId})
+        if(user) return res.status(400).json({message:"User already exists"})
+        
+        //Encrypt the password
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(password, salt)
+
+        //Save the user to the database
+        user = await userModel.create({
+            name,
+            empId,
+            contact,
+            password: hashedPassword
+        })
+
+        res.send(user);
+
+    }catch(err){
+        res.status(500).json({message:err.message})
+    }
+}
 module.exports.register = async(req, res)=>{
     const {adminId, password} = req.body;
     try{

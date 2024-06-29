@@ -2,10 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 // Importing the controller
-const { register, login, logout} = require('../controllers/authController')
+const {login, logout} = require('../controllers/authController')
 
-// Register route
-router.post('/register', register);
+
 
 // Login route
 router.post('/login', login);

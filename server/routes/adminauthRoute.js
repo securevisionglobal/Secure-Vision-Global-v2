@@ -4,9 +4,14 @@ const router = express.Router();
 // Importing the controller
 const {
   register,
+  registerUser,
   login,
   logout,
 } = require("../controllers/adminauthController");
+
+// Route to register a new user
+
+router.post("/register-user", registerUser);
 
 // Route to register a new admin
 
