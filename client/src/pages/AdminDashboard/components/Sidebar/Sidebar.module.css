@@ -1,0 +1,76 @@
+header{
+    display: flex
+}
+nav{
+    width: 200px;
+    height: 100vh;
+    border-right: 1px solid #e8e8e8    /* background-color: rgb(236, 70, 70); */
+}
+.logo {
+    width: 200px;
+    height: 100px;
+    /* background-color: aquamarine; */
+    display: grid;
+    place-items: center;
+ }
+ .logo img{
+     width: 150px;
+     /* height: 100px; */
+ }
+ .sidebar{
+    height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+ }
+.sidebar1, .sidebar2{
+    width: 100%;
+    
+}
+
+ .jobpost, .followups, .registeruser, .viewjobs, .logout{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 15px;
+    height: 50px;
+    width: 100%;
+    cursor: pointer;
+    color: #707070;
+
+    padding: 0 30px;
+ }
+
+ .logout{
+    color: red;
+ }
+
+ .jobpost:hover,
+ .followups:hover,
+ .registeruser:hover,
+ .viewjobs:hover,
+ .logout:hover{
+    background-color: #4391ED1A;
+ }
+ .jobpost:hover,
+ .followups:hover,
+ .registeruser:hover,
+ .viewjobs:hover{
+    color: black;
+ }
+
+ .head{
+    width: calc(100% - 200px);
+    height: 80px;
+    /* background-color: aqua; */
+    padding: 0 50px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    border-bottom: 0.5px solid #ebebeb;
+ }
+
+ .head h1{
+    font-size: 30px;
+    font-weight: 700;
+ }
