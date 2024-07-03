@@ -10,7 +10,8 @@ function Viewjobs() {
     const fetchJobs = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/jobposts/job-posts"
+          "http://localhost:5000/api/jobposts/job-posts",
+          {withCredentials:true}
         );
         setJobData(res.data);
       } catch (e) {
@@ -23,7 +24,7 @@ function Viewjobs() {
 
   const handleDelete = async (jobId) => {
     try{
-      await axios.delete(`http://localhost:5000/api/jobposts/delete-jobpost/${jobId}`);
+      await axios.delete(`http://localhost:5000/api/jobposts/delete-jobpost/${jobId}`, {withCredentials: true});
       setJobData(jobData.filter(job => job._id !== jobId)) 
       toast.success("Job deleted successfully.");
 

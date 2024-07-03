@@ -19,7 +19,7 @@ function Registeruser() {
   useEffect(() => {
     const fectchUsers = async () => {
       try{
-        const res = await axios.get('http://localhost:5000/api/admin/getallusers')
+        const res = await axios.get('http://localhost:5000/api/admin/getallusers', {withCredentials:true})
         setUsers(res.data);
       }catch(err){
         console.error(err);
@@ -57,7 +57,7 @@ function Registeruser() {
 
   const handleDelete = async(empId) =>{
     try{
-      await axios.delete(`http://localhost:5000/api/admin/delete-user/${empId}`);
+      await axios.delete(`http://localhost:5000/api/admin/delete-user/${empId}`, {withCredentials:true});
       setUsers(users.filter(user => user.empId !== empId))
       toast.success("User deleted successfully.");
 
@@ -79,7 +79,8 @@ function Registeruser() {
         //API CAll
         await axios.post(
           "http://localhost:5000/api/admin/register-user",
-          userData
+          userData,
+          {withCredentials:true}
         );
         setUsers([...users, userData]);
         //Reset form submission

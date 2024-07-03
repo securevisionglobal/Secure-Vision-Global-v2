@@ -32,7 +32,7 @@ function Postjob() {
     if (Object.keys(newErrors).length === 0) {
       //Adding jobs
       try{
-        const res = await axios.post('http://localhost:5000/api/jobposts/add-jobpost', jobData)
+        const res = await axios.post('http://localhost:5000/api/jobposts/add-jobpost', jobData, {withCredentials:true});
         // console.log(res.data);
         setjobData({
           companyName: "",

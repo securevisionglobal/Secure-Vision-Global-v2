@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import styled from './Adminlogin.module.css';
+import axios from 'axios'
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 
 function Adminlogin() {
   const [loginDetails, setLoginDetails] = useState({
@@ -8,6 +12,7 @@ function Adminlogin() {
   });
 
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const validate = () => {
     let newErrors = {};
@@ -16,12 +21,30 @@ function Adminlogin() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length === 0) {
       // No errors, proceed with form submission
-      console.log(loginDetails);
+      try{
+        //API Call
+        const response = await axios.post(
+          "http://localhost:5000/api/admin/login",
+          loginDetails, {withCredentials:true}
+        );
+
+        console.log("res from api: ", response)
+        if(response.data.success){
+          toast.success("Logged in successfully.");
+          // Redirect to dashboard
+          navigate("/admin/dashboard");
+        }
+
+      }catch(e) {
+        console.log("Error:", e);
+        toast.error("Failed to login. Please try again.");
+        setErrors({...errors, password: "Invalid admin ID or password." });
+      }
       setLoginDetails({
         adminId: "",
         password: ""

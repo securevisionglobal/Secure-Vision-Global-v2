@@ -4,10 +4,24 @@ import { RiChatFollowUpLine } from "react-icons/ri";
 import { SlUserFollow } from "react-icons/sl";
 import { AiOutlineLogout } from "react-icons/ai";
 import { FaRegFolderClosed } from "react-icons/fa6";
-
+import axios from "axios";
 import styled from "./Sidebar.module.css";
+import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 function Sidebar({ setactiveComponent }) {
+  const navigate = useNavigate()
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/admin/logout",{}, {
+        withCredentials: true,
+      });
+      toast.success("Logged out successfully");
+      navigate("/admin");
+    } catch (e) {
+      toast.error(e.message);
+    }
+  };
   return (
     <>
       <nav>
@@ -46,7 +60,7 @@ function Sidebar({ setactiveComponent }) {
             </div>
           </div>
           <div className={styled.sidebar2}>
-            <div className={styled.logout}>
+            <div className={styled.logout} onClick={handleLogout}>
               <AiOutlineLogout />
               <h1>Logout</h1>
             </div>

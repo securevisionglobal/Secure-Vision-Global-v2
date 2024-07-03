@@ -4,6 +4,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Login from './pages/EmpLogin/Login'
 import Adminlogin from './pages/AdminLogin/Adminlogin'
 import AdminDash from './pages/AdminDashboard/AdminDash'
+import ProtectedRouteAdmin from './pages/components/ProtectedRouteAdmin'
 // import "./App.css"
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/admin" element={<Adminlogin />}/>
-        <Route path="/admin/dashboard" element={<AdminDash />}/>
+        <Route path="/admin/dashboard" element={<ProtectedRouteAdmin element={AdminDash }/> } />
       </Routes>
     </BrowserRouter>
     </>
