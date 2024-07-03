@@ -34,7 +34,8 @@ const bcrypt = require('bcrypt');
 // }
 
 module.exports.login = async(req, res)=>{
-    const { empId, password} = req.body;
+    const { empId, password } = req.body;
+    
     try{
         let user = await userModel.findOne({empId});
         if(!user){
