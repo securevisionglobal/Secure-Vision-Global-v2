@@ -91,11 +91,14 @@ module.exports.login = async(req, res)=>{
         let isMatch = await bcrypt.compare(password, admin.password);
         if(isMatch){
             let token = generateToken({adminId});
+            
             res.cookie("token", token, {
                 maxAge: 24 * 60 * 60 * 1000,
-                httpOnly: true,
-                secure: true
+                // httpOnly: true,
+                secure: false,
+                sameSite: 'Strict'
             })
+            
             res.json({success: true, message: "Admin logged in successfully"})
         }else{
             return res.status(401).json( { success: false ,message: "Invalid credentials"})
@@ -107,7 +110,11 @@ module.exports.login = async(req, res)=>{
     
 }
 module.exports.logout = async(req,res)=>{
-    res.clearCookie("token")
-    res.json({message: "Admin logged out successfully"})
+    res.clearCookie('token', {
+        // httpOnly: true,
+        secure: false,
+        sameSite: 'Strict' // Match the sameSite attribute used when setting the cookie
+      });
+    res.json({success: true ,message: "Admin logged out successfully"})
     
 }

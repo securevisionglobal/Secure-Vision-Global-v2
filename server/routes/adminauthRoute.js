@@ -10,15 +10,17 @@ const {
   login,
   logout,
 } = require("../controllers/adminauthController");
+const verifyAdmin = require("../middlewares/verifyAdmin");
+
 
 // Route to register a new user
-router.post("/register-user", registerUser);
+router.post("/register-user", verifyAdmin, registerUser);
 
 // Route to delete a user
-router.delete("/delete-user/:empId", deleteUser);
+router.delete("/delete-user/:empId", verifyAdmin, deleteUser);
 
 // Route to get all users
-router.get("/getallusers", getallUsers);
+router.get("/getallusers", verifyAdmin, getallUsers);
 
 // Route to register a new admin
 // router.post("/register", register);
