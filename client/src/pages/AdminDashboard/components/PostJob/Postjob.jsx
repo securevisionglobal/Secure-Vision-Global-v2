@@ -1,5 +1,7 @@
-  import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "./Postjob.module.css";
+import axios from "axios"
+import { toast } from 'react-toastify';
 
 function Postjob() {
   const [jobData, setjobData] = useState({
@@ -24,23 +26,33 @@ function Postjob() {
     if (!jobData.description) errors.description = "Description is required";
     return errors;
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length === 0) {
-      console.log(jobData);
-      setjobData({
-        companyName: "",
-        jobTitle: "",
-        location: "",
-        salary: "",
-        description: "",
-      });
-      setError({});
+      //Adding jobs
+      try{
+        const res = await axios.post('http://localhost:5000/api/jobposts/add-jobpost', jobData)
+        // console.log(res.data);
+        setjobData({
+          companyName: "",
+          jobTitle: "",
+          location: "",
+          salary: "",
+          description: "",
+        });
+        setError({});
+        toast.success("Job Posted Successfully")
+        
+      }catch(e){
+        console.log(e.message);
+        toast.error("Failed to post job. Please try again later.")
+      }
+      
     } else {
       setError(newErrors);
     }
-    // submit to your server here
+    
   };
   return (
     <>
