@@ -12,7 +12,7 @@ const verifyAdmin = require('../middlewares/verifyAdmin');
 router.post('/add-jobpost',verifyAdmin, addJobPost)
 
 //View all jobs
-router.get('/job-posts',verifyAdmin, getJobPosts)
+router.get('/job-posts', getJobPosts)
 
 //Delete job post
 router.delete('/delete-jobpost/:id',verifyAdmin, deleteJobPost)

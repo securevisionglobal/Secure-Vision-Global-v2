@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "./Viewjobs.module.css";
+import axios from "axios";
 import { toast } from "react-toastify";
-import axios from 'axios'
 
 function Viewjobs() {
   const [jobData, setJobData] = useState([]);
-
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -14,25 +13,14 @@ function Viewjobs() {
         );
         setJobData(res.data);
       } catch (e) {
-        toast.error("Error fetching jobs", { autoClose: 3000 });
         console.error(e);
+        toast.error("Error fetching jobs");
       }
     };
+
     fetchJobs();
   }, []);
 
-  const handleDelete = async (jobId) => {
-    try{
-      await axios.delete(`http://localhost:5000/api/jobposts/delete-jobpost/${jobId}`, {withCredentials: true});
-      setJobData(jobData.filter(job => job._id !== jobId)) 
-      toast.success("Job deleted successfully.");
-
-
-    }catch(e) {
-      toast.error("Failed to delete job", { autoClose: 3000 });
-      console.error(e);
-    }
-  }
   return (
     <>
       <div className={styled.head}>
@@ -40,9 +28,9 @@ function Viewjobs() {
       </div>
       {/* Add your job listings here */}
       <div className={styled.cards}>
-        {/* Job Card */}
-        {jobData.map((data) => (
-          <div className={styled.jobcard}>
+        {
+          jobData.map((data)=> (
+            <div className={styled.jobcard}>
             <p>
               <span>Company Name:</span> {data.companyName}
             </p>
@@ -58,9 +46,9 @@ function Viewjobs() {
             <p>
               <span>Description:</span> {data.description}
             </p>
-            <button className={styled.delbtn} onClick={()=> handleDelete(data._id)}>Delete</button>
           </div>
-        ))}
+          ))
+        }
       </div>
     </>
   );

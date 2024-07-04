@@ -1,0 +1,8 @@
+.main{
+    display: flex;
+   }
+   
+   .content{
+       width: calc(100% - 200px);
+       height: 100vh;
+   }
