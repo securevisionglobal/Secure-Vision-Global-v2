@@ -3,7 +3,7 @@ const router = express.Router();
 
 // Importing the controller
 const {
-  // register,
+  register,
   registerUser,
   deleteUser,
   getallUsers,
@@ -20,7 +20,7 @@ router.post("/register-user", verifyAdmin, registerUser);
 router.delete("/delete-user/:empId", verifyAdmin, deleteUser);
 
 // Route to get all users
-router.get("/getallusers", verifyAdmin, getallUsers);
+router.get("/getallusers",  getallUsers);
 
 // Route to register a new admin
 // router.post("/register", register);
@@ -30,5 +30,8 @@ router.post("/login", login);
 
 // Route to logout an admin
 router.post("/logout", logout);
+router.get("/verify-admin-token", verifyAdmin, (req, res)=>{
+  res.status(200).json({success: true ,message: "Admin token is valid"});
+});
 
 module.exports = router;

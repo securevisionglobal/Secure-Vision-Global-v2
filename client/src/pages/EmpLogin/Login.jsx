@@ -1,29 +1,54 @@
 import React, { useState } from "react";
 import styled from "./Login.module.css";
+import axios from 'axios'
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [loginDetails, setLoginDetails] = useState({
-    empid: "",
+    empId: "",
     password: ""
   });
 
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const validate = () => {
     let newErrors = {};
-    if (!loginDetails.empid) newErrors.empid = "Employee ID is required.";
+    if (!loginDetails.empId) newErrors.empId = "Employee ID is required.";
     if (!loginDetails.password) newErrors.password = "Password is required.";
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length === 0) {
       // No errors, proceed with form submission
-      console.log(loginDetails);
+      try{
+        //API Call
+        const response = await axios.post(
+          "http://localhost:5000/api/user/login",
+          loginDetails, {withCredentials:true}
+        );
+
+        console.log("res from api: ", response)
+        if(response.data.success){
+          toast.success("Logged in successfully.");
+
+          //store Hr name in local storage
+          localStorage.setItem("hrName", response.data.hrName);
+          // Redirect to dashboard
+          navigate("/dashboard");
+        }
+
+      }catch(e) {
+        console.log("Error:", e);
+        toast.error("Failed to login. Please try again.");
+        setErrors({...errors, password: "Invalid ID or password." });
+      }
       setLoginDetails({
-        empid: "",
+        empId: "",
         password: ""
       });
       setErrors({});
@@ -50,10 +75,10 @@ function Login() {
                 type="text"
                 name="empid"
                 id="empid"
-                value={loginDetails.empid}
-                onChange={(e) => setLoginDetails({ ...loginDetails, empid: e.target.value.toLowerCase() })}
+                value={loginDetails.empId}
+                onChange={(e) => setLoginDetails({ ...loginDetails, empId: e.target.value.toLowerCase() })}
               />
-              {errors.empid && <p className={styled.error}>{errors.empid}</p>}
+              {errors.empId && <p className={styled.error}>{errors.empId}</p>}
             </div>
             <div className={styled.logininput}>
               <label htmlFor="password">Password</label>

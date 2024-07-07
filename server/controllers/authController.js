@@ -44,16 +44,21 @@ module.exports.login = async(req, res)=>{
         // comparing the password
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch){
-            return res.status(400).json({message:"Invalid password"})
+            return res.status(400).json({success: false, message:"Invalid password"})
         }else{
             //Generate the token and set cookies
             const token = generateToken({empId})
-            res.cookie("token", token, {
+            res.cookie("emptoken", token, {
                 maxAge: 24 * 60 * 60 * 1000,
-                httpOnly: true,
-                secure: true,
+                // httpOnly: true,
+                secure: false,
+                sameSite: 'Strict'
             })
-            return res.status(200).json({message:"Login successful"})
+            return res.status(200).json({
+                success:true, 
+                message:"Login successful",
+                hrName: user.name,
+            })
         }
 
 
@@ -64,7 +69,10 @@ module.exports.login = async(req, res)=>{
 }
 
 module.exports.logout = async(req, res)=>{
-    res.clearCookie("token");
+    res.clearCookie("emptoken",{
+        secure: false,
+        sameSite: 'Strict'
+    });
     res.send({message:"Logged out successfully"}) 
 
 }

@@ -3,22 +3,20 @@ import { Navigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 
-const ProtectedRouteAdmin = ({ element: AdminDash, ...rest }) => {
+function ProtectRouteEmp({element: EmpDash, ...rest}) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const token = Cookies.get('token');
-
+    const checkAuth = async() => {
+      const token = Cookies.get("emptoken");
       if (!token) {
         setIsAuthenticated(false);
         setLoading(false);
         return;
       }
-
       try {
-        const res = await axios.get('http://localhost:5000/api/admin/verify-admin-token', { withCredentials: true });
+        const res = await axios.get('http://localhost:5000/api/user/verify-user', { withCredentials: true });
         if (res.status === 200) {
           setIsAuthenticated(true);
         } else {
@@ -33,12 +31,10 @@ const ProtectedRouteAdmin = ({ element: AdminDash, ...rest }) => {
 
     checkAuth();
   }, []);
-
   if (loading) {
     return <h1>Loading...</h1>;
   }
+  return isAuthenticated ? <EmpDash {...rest} /> : <Navigate to="/login" />
+}
 
-  return isAuthenticated ? <AdminDash {...rest} /> : <Navigate to="/admin" />;
-};
-
-export default ProtectedRouteAdmin;
+export default ProtectRouteEmp;

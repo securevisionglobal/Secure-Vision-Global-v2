@@ -45,7 +45,7 @@ module.exports.deleteUser = async(req, res) =>{
 
 module.exports.getallUsers = async (req,res) =>{
     try{
-        let users = await userModel.find();
+        let users = await userModel.find().select('-password');
         res.json(users)
     }catch(err){
         res.status(500).json({ success: false, message: err.message });
@@ -54,33 +54,27 @@ module.exports.getallUsers = async (req,res) =>{
 
 
 
-// module.exports.register = async(req, res)=>{
-//     const {adminId, password} = req.body;
-//     try{
-//         let admin = await adminModels.findOne({adminId});
-//         if(admin){
-//             return res.status(400).json({error: "Admin already exists"})
-//         }   
-//         let salt = await bcrypt.genSalt();
-//         let hashedPassword = await bcrypt.hash(password, salt);
+module.exports.register = async(req, res)=>{
+    const {adminId, password} = req.body;
+    try{
+        let admin = await adminModels.findOne({adminId});
+        if(admin){
+            return res.status(400).json({error: "Admin already exists"})
+        }   
+        let salt = await bcrypt.genSalt();
+        let hashedPassword = await bcrypt.hash(password, salt);
 
-//         admin = await adminModels.create({
-//             adminId,
-//             password: hashedPassword
-//         })
+        admin = await adminModels.create({
+            adminId,
+            password: hashedPassword
+        })
 
-//         let token = generateToken({adminId});
-//         res.cookie("token", token, {
-//             maxAge: 24 * 60 * 60 * 1000,
-//             httpOnly: true,
-//             secure: true
-//         })
-//         res.status(201).json({message: "Admin registered successfully"})
+        res.status(201).json({message: "Admin registered successfully"})
 
-//     }catch(e){
-//         res.status(500).json({error: e.message})
-//     }
-// }
+    }catch(e){
+        res.status(500).json({error: e.message})
+    }
+}
 module.exports.login = async(req, res)=>{
     const { adminId, password } = req.body;
     try{

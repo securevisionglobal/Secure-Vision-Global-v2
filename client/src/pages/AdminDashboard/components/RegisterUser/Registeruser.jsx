@@ -19,7 +19,7 @@ function Registeruser() {
   useEffect(() => {
     const fectchUsers = async () => {
       try{
-        const res = await axios.get('http://localhost:5000/api/admin/getallusers', {withCredentials:true})
+        const res = await axios.get('http://localhost:5000/api/admin/getallusers')
         setUsers(res.data);
       }catch(err){
         console.error(err);

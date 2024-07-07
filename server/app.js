@@ -8,6 +8,7 @@ const authRoutes = require('./routes/authRoutes')
 const adminauthRoute = require('./routes/adminauthRoute')
 const jobPostsRoute = require('./routes/jobPostsRoute')
 const addCompanyRoute = require('./routes/addCompanyRoute')
+const candidateRoute = require('./routes/candidateRoute')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,6 +23,7 @@ app.use('/api/user', authRoutes);
 app.use('/api/admin', adminauthRoute)
 app.use('/api/jobposts', jobPostsRoute)
 app.use('/api/companyname', addCompanyRoute)
+app.use('/api/candidates', candidateRoute)
 
 app.listen(5000, ()=>{
     mongoose

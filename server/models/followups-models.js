@@ -7,7 +7,7 @@ const followUp = mongoose.Schema({
     HRName: String,
     DOJ: String,
     Status: String,
-    PayBackDays: String,
+    PayBackDays: Number,
 });
 
 module.exports = mongoose.model('Followup', followUp);
