@@ -7,11 +7,11 @@ import styled from './Sidebar.module.css';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
-function Sidebar({setActiveComponent}) {
+function Sidebar({setActiveComponent, url}) {
   const navigate = useNavigate()
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/user/logout",{}, {
+      await axios.post(`${url}/api/user/logout`,{}, {
         withCredentials: true,
       });
       toast.success("Logged out successfully");

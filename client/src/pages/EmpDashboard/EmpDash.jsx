@@ -5,21 +5,22 @@ import Viewjobs from "./components/Viewjobs/Viewjobs";
 import Followups from "./components/Followups/Followups";
 
 function EmpDash() {
+  const url = "http://localhost:5000";
   const [activeComponent, setActiveComponent] = useState("Viewjobs");
   const renderComponent = () => {
     switch (activeComponent) {
       case "Viewjobs":
-        return <Viewjobs />;
+        return <Viewjobs url={url}/>;
       case "Followups":
-        return <Followups />;
+        return <Followups url={url}/>;
 
       default:
-        return <Viewjobs />;
+        return <Viewjobs url={url} />;
     }
   };
   return (
     <div className={styled.main}>
-      <Sidebar setActiveComponent={setActiveComponent} />
+      <Sidebar url={url} setActiveComponent={setActiveComponent} />
       <div className={styled.content}>{renderComponent()}</div>
     </div>
   );

@@ -9,11 +9,11 @@ import styled from "./Sidebar.module.css";
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
-function Sidebar({ setactiveComponent }) {
+function Sidebar({ setactiveComponent , url}) {
   const navigate = useNavigate()
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/admin/logout",{}, {
+      await axios.post(`${url}/api/admin/logout`,{}, {
         withCredentials: true,
       });
       toast.success("Logged out successfully");

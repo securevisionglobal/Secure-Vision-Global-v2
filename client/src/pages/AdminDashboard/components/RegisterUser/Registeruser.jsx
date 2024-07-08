@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import styled from "./Registeruser.module.css";
 // import registerUser from "../../../../api/registerUser";
 
-function Registeruser() {
+function Registeruser({url}) {
   const [userData, setUserData] = useState({
     name: "",
     empId: "",
@@ -19,7 +19,7 @@ function Registeruser() {
   useEffect(() => {
     const fectchUsers = async () => {
       try{
-        const res = await axios.get('http://localhost:5000/api/admin/getallusers')
+        const res = await axios.get(`${url}/api/admin/getallusers`)
         setUsers(res.data);
       }catch(err){
         console.error(err);
@@ -57,7 +57,7 @@ function Registeruser() {
 
   const handleDelete = async(empId) =>{
     try{
-      await axios.delete(`http://localhost:5000/api/admin/delete-user/${empId}`, {withCredentials:true});
+      await axios.delete(`${url}/api/admin/delete-user/${empId}`, {withCredentials:true});
       setUsers(users.filter(user => user.empId !== empId))
       toast.success("User deleted successfully.");
 
@@ -78,7 +78,7 @@ function Registeruser() {
       try {
         //API CAll
         await axios.post(
-          "http://localhost:5000/api/admin/register-user",
+          `${url}/api/admin/register-user`,
           userData,
           {withCredentials:true}
         );

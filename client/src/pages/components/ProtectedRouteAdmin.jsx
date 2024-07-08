@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 const ProtectedRouteAdmin = ({ element: AdminDash, ...rest }) => {
+  const url = "http://localhost:5000";
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -18,7 +19,7 @@ const ProtectedRouteAdmin = ({ element: AdminDash, ...rest }) => {
       }
 
       try {
-        const res = await axios.get('http://localhost:5000/api/admin/verify-admin-token', { withCredentials: true });
+        const res = await axios.get(`${url}/api/admin/verify-admin-token`, { withCredentials: true });
         if (res.status === 200) {
           setIsAuthenticated(true);
         } else {

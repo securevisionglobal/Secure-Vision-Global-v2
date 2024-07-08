@@ -3,7 +3,7 @@ import styled from "./Postjob.module.css";
 import axios from "axios"
 import { toast } from 'react-toastify';
 
-function Postjob() {
+function Postjob({url}) {
   const [jobData, setjobData] = useState({
     companyName: "",
     jobTitle: "",
@@ -32,7 +32,7 @@ function Postjob() {
     if (Object.keys(newErrors).length === 0) {
       //Adding jobs
       try{
-        const res = await axios.post('http://localhost:5000/api/jobposts/add-jobpost', jobData, {withCredentials:true});
+        const res = await axios.post(`${url}/api/jobposts/add-jobpost`, jobData, {withCredentials:true});
         // console.log(res.data);
         setjobData({
           companyName: "",

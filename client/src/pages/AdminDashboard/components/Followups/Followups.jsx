@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "./Followups.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
-function Followups() {
+function Followups({url}) {
+  
   const [companyname, setCompanyname] = useState("");
   const [companyList, setCompanyList] = useState([]);
   const [candidates, setCandidates] = useState([]);
@@ -24,7 +25,7 @@ function Followups() {
   useEffect(() => {
     const fetchCompany = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/companyname/");
+        const res = await axios.get(`${url}/api/companyname/`);
         if (Array.isArray(res.data)) {
           setCompanyList(res.data);
         } else {
@@ -41,7 +42,7 @@ function Followups() {
     const fetchCandidates = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/candidates/get-all",
+          `${url}/api/candidates/get-all`,
           { withCredentials: true }
         );
         setCandidates(response.data);
@@ -57,7 +58,7 @@ function Followups() {
     const fetchHRNames = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/admin/getallusers",
+          `${url}/api/admin/getallusers`,
         );
         setHrNames(response.data);
       } catch (error) {
@@ -80,7 +81,7 @@ function Followups() {
     }
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/companyname/add",
+        `${url}/api/companyname/add`,
         { companyname },
         { withCredentials: true }
       );
@@ -99,7 +100,7 @@ function Followups() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/companyname/delete/${id}`, {
+      await axios.delete(`${url}/api/companyname/delete/${id}`, {
         withCredentials: true,
       });
       setCompanyList(companyList.filter((company) => company._id !== id));
@@ -142,7 +143,7 @@ function Followups() {
     try {
       if (editMode) {
         await axios.put(
-          `http://localhost:5000/api/candidates/update/${currentCandidateId}`,
+          `${url}/api/candidates/update/${currentCandidateId}`,
           formData,
           { withCredentials: true }
         );

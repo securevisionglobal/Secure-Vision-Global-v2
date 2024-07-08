@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 function ProtectRouteEmp({element: EmpDash, ...rest}) {
+  const url = "http://localhost:5000";
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -16,7 +17,7 @@ function ProtectRouteEmp({element: EmpDash, ...rest}) {
         return;
       }
       try {
-        const res = await axios.get('http://localhost:5000/api/user/verify-user', { withCredentials: true });
+        const res = await axios.get(`${url}/api/user/verify-user`, { withCredentials: true });
         if (res.status === 200) {
           setIsAuthenticated(true);
         } else {

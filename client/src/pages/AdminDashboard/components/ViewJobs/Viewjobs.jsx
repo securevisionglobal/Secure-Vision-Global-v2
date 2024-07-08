@@ -3,14 +3,14 @@ import styled from "./Viewjobs.module.css";
 import { toast } from "react-toastify";
 import axios from 'axios'
 
-function Viewjobs() {
+function Viewjobs({url}) {
   const [jobData, setJobData] = useState([]);
 
   useEffect(() => {
     const fetchJobs = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/jobposts/job-posts"
+          `${url}/api/jobposts/job-posts`
         );
         setJobData(res.data);
       } catch (e) {
@@ -23,7 +23,7 @@ function Viewjobs() {
 
   const handleDelete = async (jobId) => {
     try{
-      await axios.delete(`http://localhost:5000/api/jobposts/delete-jobpost/${jobId}`, {withCredentials: true});
+      await axios.delete(`${url}/api/jobposts/delete-jobpost/${jobId}`, {withCredentials: true});
       setJobData(jobData.filter(job => job._id !== jobId)) 
       toast.success("Job deleted successfully.");
 

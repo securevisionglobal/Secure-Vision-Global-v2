@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Adminlogin() {
+  const url = "http://localhost:5000";
   const [loginDetails, setLoginDetails] = useState({
     adminId: "",
     password: ""
@@ -29,7 +30,7 @@ function Adminlogin() {
       try{
         //API Call
         const response = await axios.post(
-          "http://localhost:5000/api/admin/login",
+          `${url}/api/admin/login`,
           loginDetails, {withCredentials:true}
         );
 

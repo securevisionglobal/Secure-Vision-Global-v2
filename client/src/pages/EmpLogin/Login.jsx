@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const url = "http://localhost:5000";
   const [loginDetails, setLoginDetails] = useState({
     empId: "",
     password: ""
@@ -28,7 +29,7 @@ function Login() {
       try{
         //API Call
         const response = await axios.post(
-          "http://localhost:5000/api/user/login",
+          `${url}/api/user/login`,
           loginDetails, {withCredentials:true}
         );
 

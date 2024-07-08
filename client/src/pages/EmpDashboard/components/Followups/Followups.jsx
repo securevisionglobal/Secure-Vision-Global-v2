@@ -3,7 +3,7 @@ import styled from "./Followups.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function Followups() {
+function Followups({ url }) {
   const loggedInHRName = localStorage.getItem("hrName") || "";
   const [companyNames, setCompanyNames] = useState([]);
   const [formData, setFormData] = useState({
@@ -16,6 +16,8 @@ function Followups() {
     PayBackDays: "",
   });
   const [candidate, setCandidate] = useState([]);
+  const [editingStatus, setEditingStatus] = useState("");
+  const [editingcandidateId, setEditingcandidateId] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,9 +26,7 @@ function Followups() {
   useEffect(() => {
     const fetchCompany = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/companyname/"
-        );
+        const response = await axios.get(`${url}/api/companyname/`);
         setCompanyNames(response.data);
       } catch (error) {
         console.error(error);
@@ -36,11 +36,12 @@ function Followups() {
 
     const fetchCandidates = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/candidates/get",
-          { withCredentials: true }
+        const response = await axios.get(`${url}/api/candidates/get`, {
+          withCredentials: true,
+        });
+        const filteredCandidates = response.data.filter(
+          (candidate) => candidate.HRName === loggedInHRName
         );
-        const filteredCandidates = response.data.filter(candidate => candidate.HRName === loggedInHRName)
         setCandidate(filteredCandidates);
       } catch (error) {
         console.error(error);
@@ -81,12 +82,12 @@ function Followups() {
     };
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/candidates/add-candidate",
+        `${url}/api/candidates/add-candidate`,
         newCandidate,
         { withCredentials: true }
       );
 
-      setCandidate([...candidate, response.data.data])
+      setCandidate([...candidate, response.data.data]);
       toast.success("Candidate added successfully");
     } catch (error) {}
     setFormData({
@@ -99,6 +100,31 @@ function Followups() {
       PayBackDays: "",
     });
   };
+
+  const handleEdit = (candidate) => {
+    setEditingStatus(candidate.Status);
+    setEditingcandidateId(candidate._id);
+  }
+
+  const handleSave =  async(candidateId) =>{
+    try{
+      await axios.put(
+        `${url}/api/candidates/update-status/${candidateId}`,
+        { Status: editingStatus },
+        { withCredentials: true }
+      );
+      setCandidate((prevCandidate) =>
+      prevCandidate.map((cand) =>
+        cand._id === candidateId? {...cand, Status: editingStatus } : cand
+      ));
+      setEditingStatus("");
+      setEditingcandidateId(null);
+      toast.success("Status updated successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update status");
+    }
+  }
   return (
     <>
       <div className={styled.head}>
@@ -197,10 +223,11 @@ function Followups() {
               <th>Date of Joining</th>
               <th>Pay Back Days</th>
               <th>Status</th>
+              <th>Edit</th>
             </tr>
           </thead>
           <tbody>
-          {candidate.map((cand) => (
+            {candidate.map((cand) => (
               <tr key={cand._id}>
                 <td>{cand.name}</td>
                 <td>{cand.Number}</td>
@@ -208,7 +235,30 @@ function Followups() {
                 <td>{cand.HRName}</td>
                 <td>{cand.DOJ}</td>
                 <td>{cand.PayBackDays}</td>
-                <td>{cand.Status}</td>
+                <td>
+                  {editingcandidateId === cand._id ? (
+                    <select value={editingStatus} onChange={(e)=> setEditingStatus(e.target.value)}>
+                      <option value="Interested">Interested</option>
+                      <option value="Walk-in">Walk-In</option>
+                      <option value="Selected">Selected</option>
+                      <option value="Rejected">Rejected</option>
+                      <option value="Hold">Hold</option>
+                      <option value="Drop">Drop</option>
+                      <option value="Active">Active</option>
+                    </select>
+                  ) : (
+                    cand.Status
+                  )}
+                </td>
+                {editingcandidateId === cand._id ? (
+                  <td>
+                    <button onClick={() => handleSave(cand._id)}>Save</button>
+                  </td>
+                ) : (
+                  <td>
+                    <button onClick={() => handleEdit(cand)}>Edit</button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

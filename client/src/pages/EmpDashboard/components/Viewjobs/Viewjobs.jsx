@@ -3,13 +3,13 @@ import styled from "./Viewjobs.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function Viewjobs() {
+function Viewjobs({url}) {
   const [jobData, setJobData] = useState([]);
   useEffect(() => {
     const fetchJobs = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/jobposts/job-posts"
+          `${url}/api/jobposts/job-posts`
         );
         setJobData(res.data);
       } catch (e) {
@@ -30,7 +30,7 @@ function Viewjobs() {
       <div className={styled.cards}>
         {
           jobData.map((data)=> (
-            <div className={styled.jobcard}>
+            <div className={styled.jobcard} key={data._id}>
             <p>
               <span>Company Name:</span> {data.companyName}
             </p>
