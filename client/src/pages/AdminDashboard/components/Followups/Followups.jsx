@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "./Followups.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
-function Followups({url}) {
-  
+function Followups({ url }) {
   const [companyname, setCompanyname] = useState("");
   const [companyList, setCompanyList] = useState([]);
   const [candidates, setCandidates] = useState([]);
@@ -11,7 +10,8 @@ function Followups({url}) {
   const [hrNames, setHrNames] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [currentCandidateId, setCurrentCandidateId] = useState(null);
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     Number: "",
@@ -41,11 +41,10 @@ function Followups({url}) {
 
     const fetchCandidates = async () => {
       try {
-        const response = await axios.get(
-          `${url}/api/candidates/get-all`,
-          { withCredentials: true }
-        );
-        setCandidates(response.data);
+        const response = await axios.get(`${url}/api/candidates/get-all`, {
+          withCredentials: true,
+        });
+        setCandidates(response.data.reverse());
       } catch (error) {
         console.error(error);
         toast.error("Error fetching candidates");
@@ -57,9 +56,7 @@ function Followups({url}) {
 
     const fetchHRNames = async () => {
       try {
-        const response = await axios.get(
-          `${url}/api/admin/getallusers`,
-        );
+        const response = await axios.get(`${url}/api/admin/getallusers`);
         setHrNames(response.data);
       } catch (error) {
         console.error(error);
@@ -152,7 +149,9 @@ function Followups({url}) {
 
         //update the candidates array
         const updatedCandidates = candidates.map((candidate) =>
-          candidate._id === currentCandidateId ? { ...candidate, ...formData } : candidate
+          candidate._id === currentCandidateId
+            ? { ...candidate, ...formData }
+            : candidate
         );
         setCandidates(updatedCandidates);
         toast.success("Candidate updated successfully.");
@@ -164,8 +163,8 @@ function Followups({url}) {
           DOJ: "",
           Status: "",
           PayBackDays: "",
-        })
-      } 
+        });
+      }
     } catch (error) {
       console.error(error);
       toast.error("Error submitting candidate data");
@@ -303,6 +302,20 @@ function Followups({url}) {
             value={search}
             onChange={(e) => setSearch(e.target.value.toLowerCase())}
           />
+          <select
+            name="status"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="">All Statuses</option>
+            <option value="Interested">Interested</option>
+            <option value="Walk-in">Walk-In</option>
+            <option value="Selected">Selected</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Hold">Hold</option>
+            <option value="Drop">Drop</option>
+            <option value="Active">Active</option>
+          </select>
         </div>
         <table id="candidateTable" className={styled.candidateTable}>
           <thead>
@@ -318,20 +331,27 @@ function Followups({url}) {
             </tr>
           </thead>
           <tbody>
-            {candidates.filter((candidate) => candidate.HRName.toLowerCase().includes(search)).map((candidate) => (
-              <tr key={candidate._id}>
-                <td>{candidate.name}</td>
-                <td>{candidate.Number}</td>
-                <td>{candidate.CompanyName}</td>
-                <td>{candidate.HRName}</td>
-                <td>{candidate.DOJ}</td>
-                <td>{candidate.PayBackDays}</td>
-                <td>{candidate.Status}</td>
-                <td>
-                  <button onClick={() => handleEdit(candidate)}>Edit</button>
-                </td>
-              </tr>
-            ))}
+            {candidates
+              .filter((candidate) =>
+                candidate.HRName.toLowerCase().includes(search)
+               && (
+                candidate.Status === statusFilter ||
+                statusFilter === ""
+              ))
+              .map((candidate) => (
+                <tr key={candidate._id}>
+                  <td>{candidate.name}</td>
+                  <td>{candidate.Number}</td>
+                  <td>{candidate.CompanyName}</td>
+                  <td>{candidate.HRName}</td>
+                  <td>{candidate.DOJ}</td>
+                  <td>{candidate.PayBackDays}</td>
+                  <td>{candidate.Status}</td>
+                  <td>
+                    <button onClick={() => handleEdit(candidate)}>Edit</button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

@@ -214,8 +214,9 @@ tbody td button{
   align-items: center;
   padding: 0 20px;
   margin: 20px 0;
+  gap: 20px;
 }
-.searchFilter input{
+.searchFilter input, .searchFilter select{
   width: 300px;
   padding: 8px 12px;
   font-size: 19px;

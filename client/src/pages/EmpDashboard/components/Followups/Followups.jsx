@@ -87,7 +87,7 @@ function Followups({ url }) {
         { withCredentials: true }
       );
 
-      setCandidate([...candidate, response.data.data]);
+      setCandidate([response.data.data, ...candidate]);
       toast.success("Candidate added successfully");
     } catch (error) {}
     setFormData({
