@@ -8,6 +8,10 @@ const followUp = mongoose.Schema({
     DOJ: String,
     Status: String,
     PayBackDays: Number,
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 module.exports = mongoose.model('Followup', followUp);
