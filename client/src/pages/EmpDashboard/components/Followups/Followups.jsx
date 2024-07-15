@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "./Followups.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { format } from "date-fns";
 
 function Followups({ url }) {
   const loggedInHRName = localStorage.getItem("hrName") || "";
@@ -42,7 +43,7 @@ function Followups({ url }) {
         const filteredCandidates = response.data.filter(
           (candidate) => candidate.HRName === loggedInHRName
         );
-        setCandidate(filteredCandidates);
+        setCandidate(filteredCandidates.reverse());
       } catch (error) {
         console.error(error);
         toast.error("Error fetching candidates");
@@ -216,6 +217,7 @@ function Followups({ url }) {
         <table id="candidateTable" className={styled.candidateTable}>
           <thead>
             <tr>
+              <th>Date</th>
               <th>Name</th>
               <th>Number</th>
               <th>Company</th>
@@ -229,6 +231,7 @@ function Followups({ url }) {
           <tbody>
             {candidate.map((cand) => (
               <tr key={cand._id}>
+                <td>{format(new Date(cand.createdAt), "Pp")}</td>
                 <td>{cand.name}</td>
                 <td>{cand.Number}</td>
                 <td>{cand.CompanyName}</td>

@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "./Followups.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { format } from "date-fns";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { DateRangePicker } from "react-date-range";
+
 function Followups({ url }) {
   const [companyname, setCompanyname] = useState("");
   const [companyList, setCompanyList] = useState([]);
@@ -21,6 +26,17 @@ function Followups({ url }) {
     Status: "",
     PayBackDays: "",
   });
+
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const updateSection = useRef(null);
+
+  const selectionRange = {
+    startDate: startDate,
+    endDate: endDate,
+    key: "selection",
+  };
 
   useEffect(() => {
     const fetchCompany = async () => {
@@ -121,6 +137,8 @@ function Followups({ url }) {
     setFormDisabled(false);
     setCurrentCandidateId(candidate._id);
     setEditMode(true);
+
+    updateSection.current.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSubmit = async (e) => {
@@ -171,6 +189,10 @@ function Followups({ url }) {
     }
   };
 
+  const handleSelect = (date) => {
+    setStartDate(date.selection.startDate);
+    setEndDate(date.selection.endDate);
+  };
   return (
     <>
       <div className={styled.head}>
@@ -197,7 +219,7 @@ function Followups({ url }) {
       </div>
 
       <div className={styled.wrapper}>
-        <div className={styled.updatehead}>
+        <div ref={updateSection} className={styled.updatehead}>
           <h1>Candidate Status Update</h1>
         </div>
         <div className={styled.update}>
@@ -290,6 +312,7 @@ function Followups({ url }) {
           </div>
         </div>
       </div>
+
       <div className={styled.info}>
         <div className={styled.infohead}>
           <h1>Candidate Information</h1>
@@ -302,6 +325,7 @@ function Followups({ url }) {
             value={search}
             onChange={(e) => setSearch(e.target.value.toLowerCase())}
           />
+          <DateRangePicker ranges={[selectionRange]} onChange={handleSelect} />
           <select
             name="status"
             value={statusFilter}
@@ -320,6 +344,7 @@ function Followups({ url }) {
         <table id="candidateTable" className={styled.candidateTable}>
           <thead>
             <tr>
+              <th>Date</th>
               <th>Name</th>
               <th>Number</th>
               <th>Company</th>
@@ -332,14 +357,19 @@ function Followups({ url }) {
           </thead>
           <tbody>
             {candidates
-              .filter((candidate) =>
-                candidate.HRName.toLowerCase().includes(search)
-               && (
-                candidate.Status === statusFilter ||
-                statusFilter === ""
-              ))
+              .filter(
+                (candidate) =>
+                  candidate.HRName.toLowerCase().includes(search) &&
+                  (candidate.Status === statusFilter || statusFilter === "") &&
+                  (!startDate ||
+                    !endDate ||
+                    (new Date(candidate.createdAt) >= startDate &&
+                      new Date(candidate.createdAt) <= endDate))
+              )
+
               .map((candidate) => (
                 <tr key={candidate._id}>
+                  <td>{format(new Date(candidate.createdAt), "Pp")}</td>
                   <td>{candidate.name}</td>
                   <td>{candidate.Number}</td>
                   <td>{candidate.CompanyName}</td>
