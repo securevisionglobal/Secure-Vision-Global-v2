@@ -6,6 +6,8 @@ import { format } from "date-fns";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker } from "react-date-range";
+import { CSVLink } from "react-csv";
+import Papa from "papaparse";
 
 function Followups({ url }) {
   const [companyname, setCompanyname] = useState("");
@@ -193,6 +195,40 @@ function Followups({ url }) {
     setStartDate(date.selection.startDate);
     setEndDate(date.selection.endDate);
   };
+
+  const exportData = () => {
+    const filteredData = candidates.filter(
+      (candidate) =>
+        candidate.HRName.toLowerCase().includes(search) &&
+        (candidate.Status === statusFilter || statusFilter === "") &&
+        (!startDate ||
+          !endDate ||
+          (new Date(candidate.createdAt) >= startDate &&
+            new Date(candidate.createdAt) <= endDate))
+    );
+
+    const csvData = filteredData.map((candidate) => ({
+      Date: format(new Date(candidate.createdAt), "Pp"),
+      Name: candidate.name,
+      Number: candidate.Number,
+      Company: candidate.CompanyName,
+      "HR Name": candidate.HRName,
+      "Date of Joining": candidate.DOJ,
+      "Pay Back Days": candidate.PayBackDays,
+      Status: candidate.Status,
+    }));
+
+    const csv = Papa.unparse(csvData);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "candidates.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <>
       <div className={styled.head}>
@@ -340,6 +376,7 @@ function Followups({ url }) {
             <option value="Drop">Drop</option>
             <option value="Active">Active</option>
           </select>
+          <button className={styled.exportBtn} onClick={exportData}>Download Data</button>
         </div>
         <table id="candidateTable" className={styled.candidateTable}>
           <thead>
