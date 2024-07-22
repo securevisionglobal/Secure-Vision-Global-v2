@@ -119,3 +119,15 @@ module.exports.updateCandidateStatus = async (req, res) => {
      .json({ message: "Error updating candidate status", error: e.message });
   }
 };
+
+
+module.exports.deleteCandidate = async(req, res) => {
+  const {id} = req.params;
+  try {
+    await followupsModel.findByIdAndDelete(id);
+    res.status(200).json({message: "Candidate deleted successfully"});
+  } catch (error) {
+    res.status(500).json({message: "Error deleting candidate", error: error.message});
+  }
+
+}
