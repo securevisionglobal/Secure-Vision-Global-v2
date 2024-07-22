@@ -196,6 +196,19 @@ function Followups({ url }) {
     setEndDate(date.selection.endDate);
   };
 
+  const handleDeleteCandidate = async(id) => {
+    try {
+      await axios.delete(`${url}/api/candidates/delete/${id}`, {
+        withCredentials: true,
+      });
+      setCandidates(candidates.filter((candidate) => candidate._id!== id));
+      toast.success("Candidate deleted successfully.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete candidate. Please try again later.");
+    }
+  }
+
   const exportData = () => {
     const filteredData = candidates.filter(
       (candidate) =>
@@ -416,6 +429,7 @@ function Followups({ url }) {
                   <td>{candidate.Status}</td>
                   <td>
                     <button onClick={() => handleEdit(candidate)}>Edit</button>
+                    <button onClick={() => handleDeleteCandidate(candidate._id)}>Delete</button>
                   </td>
                 </tr>
               ))}
