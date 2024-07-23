@@ -1,9 +1,11 @@
-.main{
- display: flex;
-}
-
-.content{
+/* Base styles for larger screens */
+.main {
+    display: flex;
+    background-color: rgba(137, 171, 245, 0.37);
+  }
+  
+  .content {
     width: calc(100% - 200px);
     height: 100vh;
-    /* background-color: bisque; */
-}
+  }  
+

@@ -35,11 +35,12 @@ function Login() {
 
         console.log("res from api: ", response)
         if(response.data.success){
-          toast.success("Logged in successfully.");
+          
 
           //store Hr name in local storage
           localStorage.setItem("hrName", response.data.hrName);
           // Redirect to dashboard
+          toast.success(`Hi ${response.data.hrName}`);
           navigate("/dashboard");
         }
 
