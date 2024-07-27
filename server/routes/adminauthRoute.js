@@ -22,8 +22,8 @@ router.delete("/delete-user/:empId", verifyAdmin, deleteUser);
 // Route to get all users
 router.get("/getallusers",  getallUsers);
 
-// Route to register a new admin
-// router.post("/register", register);
+//Route to register a new admin
+router.post("/register", register);
 
 // Route to login an admin
 router.post("/login", login);
