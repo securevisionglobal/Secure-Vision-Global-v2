@@ -11,6 +11,7 @@ const ProtectedRouteAdmin = ({ element: AdminDash, ...rest }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const token = Cookies.get('token');
+      console.log(token);
 
       if (!token) {
         setIsAuthenticated(false);
