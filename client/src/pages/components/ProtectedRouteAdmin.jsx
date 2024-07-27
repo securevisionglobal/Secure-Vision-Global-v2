@@ -20,7 +20,10 @@ const ProtectedRouteAdmin = ({ element: AdminDash, ...rest }) => {
       }
 
       try {
-        const res = await axios.get(`${url}/api/admin/verify-admin-token`, { withCredentials: true });
+        const res = await axios.get(`${url}/api/admin/verify-admin-token`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+        }  , withCredentials: true });
         if (res.status === 200) {
           console.log("admin verified");
           setIsAuthenticated(true);
