@@ -11,14 +11,30 @@ const addCompanyRoute = require('./routes/addCompanyRoute')
 const candidateRoute = require('./routes/candidateRoute')
 const updatePayBackDays = require('./utils/updatePayback')
 const cron = require('node-cron')
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://secure-vision-global-v2.onrender.com'
+];
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
+
+
 app.use(cors({
-    origin: 'https://secure-vision-global-v2.onrender.com',
-    credentials: true,
-}))
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps, curl requests)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
+    credentials: true
+}));
+
 
 cron.schedule('0 0 * * *', () => {
     updatePayBackDays();
