@@ -51,7 +51,7 @@ module.exports.login = async(req, res)=>{
             res.cookie("emptoken", token, {
                 maxAge: 24 * 60 * 60 * 1000,
                 // httpOnly: true,
-                secure: false,
+                secure: true,
                 sameSite: 'Strict'
             })
             return res.status(200).json({
@@ -70,7 +70,7 @@ module.exports.login = async(req, res)=>{
 
 module.exports.logout = async(req, res)=>{
     res.clearCookie("emptoken",{
-        secure: false,
+        secure: true,
         sameSite: 'Strict'
     });
     res.send({message:"Logged out successfully"}) 
