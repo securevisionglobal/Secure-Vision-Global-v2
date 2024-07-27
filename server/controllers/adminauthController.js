@@ -90,7 +90,7 @@ module.exports.login = async(req, res)=>{
                 maxAge: 24 * 60 * 60 * 1000,
                 
                 secure: true,
-                sameSite: 'Strict'
+                sameSite: 'None'
             })
             
             res.json({success: true, message: "Admin logged in successfully"})
@@ -107,7 +107,7 @@ module.exports.logout = async(req,res)=>{
     res.clearCookie('token', {
        
         secure: true,
-        sameSite: 'Strict' // Match the sameSite attribute used when setting the cookie
+        sameSite: 'None' // Match the sameSite attribute used when setting the cookie
       });
     res.json({success: true ,message: "Admin logged out successfully"})
     
