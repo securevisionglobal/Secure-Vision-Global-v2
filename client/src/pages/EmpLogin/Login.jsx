@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styled from "./Login.module.css";
-import axios from 'axios'
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const url = "http://localhost:5000";
+  const url = "https://svgbackendv1.onrender.com";
   const [loginDetails, setLoginDetails] = useState({
     empId: "",
-    password: ""
+    password: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -21,37 +21,35 @@ function Login() {
     return newErrors;
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length === 0) {
       // No errors, proceed with form submission
-      try{
+      try {
         //API Call
         const response = await axios.post(
           `${url}/api/user/login`,
-          loginDetails, {withCredentials:true}
+          loginDetails,
+          { withCredentials: true }
         );
 
-        console.log("res from api: ", response)
-        if(response.data.success){
-          
-
+        console.log("res from api: ", response);
+        if (response.data.success) {
           //store Hr name in local storage
           localStorage.setItem("hrName", response.data.hrName);
           // Redirect to dashboard
           toast.success(`Hi ${response.data.hrName}`);
           navigate("/dashboard");
         }
-
-      }catch(e) {
+      } catch (e) {
         console.log("Error:", e);
         toast.error("Failed to login. Please try again.");
-        setErrors({...errors, password: "Invalid ID or password." });
+        setErrors({ ...errors, password: "Invalid ID or password." });
       }
       setLoginDetails({
         empId: "",
-        password: ""
+        password: "",
       });
       setErrors({});
     } else {
@@ -78,7 +76,12 @@ function Login() {
                 name="empid"
                 id="empid"
                 value={loginDetails.empId}
-                onChange={(e) => setLoginDetails({ ...loginDetails, empId: e.target.value.toLowerCase() })}
+                onChange={(e) =>
+                  setLoginDetails({
+                    ...loginDetails,
+                    empId: e.target.value.toLowerCase(),
+                  })
+                }
               />
               {errors.empId && <p className={styled.error}>{errors.empId}</p>}
             </div>
@@ -89,9 +92,13 @@ function Login() {
                 name="password"
                 id="password"
                 value={loginDetails.password}
-                onChange={(e) => setLoginDetails({ ...loginDetails, password: e.target.value })}
+                onChange={(e) =>
+                  setLoginDetails({ ...loginDetails, password: e.target.value })
+                }
               />
-              {errors.password && <p className={styled.error}>{errors.password}</p>}
+              {errors.password && (
+                <p className={styled.error}>{errors.password}</p>
+              )}
             </div>
             <div className={styled.loginbtn}>
               <button type="submit">Login</button>

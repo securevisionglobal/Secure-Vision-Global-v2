@@ -5,7 +5,7 @@ import Viewjobs from "./components/Viewjobs/Viewjobs";
 import Followups from "./components/Followups/Followups";
 
 function EmpDash() {
-  const url = "http://localhost:5000";
+  const url = "https://svgbackendv1.onrender.com";
   const [activeComponent, setActiveComponent] = useState("Viewjobs");
   const renderComponent = () => {
     switch (activeComponent) {

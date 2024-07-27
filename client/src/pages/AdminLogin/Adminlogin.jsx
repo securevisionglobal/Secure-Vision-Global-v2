@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Adminlogin() {
-  const url = "http://localhost:5000";
+  const url = "https://svgbackendv1.onrender.com";
   const [loginDetails, setLoginDetails] = useState({
     adminId: "",
     password: ""
