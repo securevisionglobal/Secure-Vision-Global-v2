@@ -89,9 +89,12 @@ module.exports.login = async(req, res)=>{
             res.cookie("token", token, {
                 maxAge: 24 * 60 * 60 * 1000,
                 httpOnly: false,
-                secure: false,
-                sameSite: 'None'
+                secure: true,
+                path: '/',
+                domain: 'localhost',
+                sameSite: "None"
             })
+            console.log('Cookie set:', res.getHeader('Set-Cookie'));
             
             res.json({success: true, message: "Admin logged in successfully"})
         }else{
@@ -106,8 +109,9 @@ module.exports.login = async(req, res)=>{
 module.exports.logout = async(req,res)=>{
     res.clearCookie('token', {
        httpOnly: false,
-        secure: false,
-        sameSite: 'None' // Match the sameSite attribute used when setting the cookie
+        secure: true,
+        path: '/',
+        sameSite: "None" // Match the sameSite attribute used when setting the cookie
       });
     res.json({success: true ,message: "Admin logged out successfully"})
     
