@@ -92,7 +92,7 @@ module.exports.login = async(req, res)=>{
                 secure: true,
                 sameSite: "None",
                 path: '/',
-                domain:'.secure-vision-global-v2.onrender.com',
+                // domain:'.secure-vision-global-v2.onrender.com',
             })
             console.log('Cookie set:', res.getHeader('Set-Cookie'));
             console.log("document.cookie after login:", document.cookie);
@@ -112,7 +112,7 @@ module.exports.logout = async(req,res)=>{
        sameSite: "None",
         secure: true,
         path: '/',
-        domain:'.secure-vision-global-v2.onrender.com',
+        // domain:'.secure-vision-global-v2.onrender.com',
          // Match the sameSite attribute used when setting the cookie
       });
     res.json({success: true ,message: "Admin logged out successfully"})
