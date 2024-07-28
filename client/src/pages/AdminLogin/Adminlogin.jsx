@@ -39,6 +39,8 @@ function Adminlogin() {
         if(response.data.success){
           toast.success("Logged in successfully.");
           // Redirect to dashboard
+
+          console.log("Before Timeout document.cookie:", document.cookie);
           setTimeout(()=>{
             navigate("/admin/dashboard");
           }, 5000)
