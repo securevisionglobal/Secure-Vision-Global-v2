@@ -91,7 +91,6 @@ module.exports.login = async(req, res)=>{
                 httpOnly: false,
                 secure: true,
                 path: '/',
-                domain: 'localhost',
                 sameSite: "None"
             })
             console.log('Cookie set:', res.getHeader('Set-Cookie'));
