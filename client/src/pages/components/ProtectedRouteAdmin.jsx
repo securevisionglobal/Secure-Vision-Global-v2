@@ -4,8 +4,8 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 const ProtectedRouteAdmin = ({ element: AdminDash, ...rest }) => {
-  const url = "https://svgbackendv1.onrender.com";
-  // const url = "http://localhost:5000";
+  // const url = "https://svgbackendv1.onrender.com";
+  const url = "http://localhost:5000";
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -38,8 +38,10 @@ const ProtectedRouteAdmin = ({ element: AdminDash, ...rest }) => {
     };
 
     checkAuth();
+    
   }, []);
 
+  
   if (loading) {
     return <h1>Loading...</h1>;
   }

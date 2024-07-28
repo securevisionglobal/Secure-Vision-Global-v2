@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Adminlogin() {
-  const url = "https://svgbackendv1.onrender.com";
-  // const url = "http://localhost:5000";
+  // const url = "https://svgbackendv1.onrender.com";
+  const url = "http://localhost:5000";
   const [loginDetails, setLoginDetails] = useState({
     adminId: "",
     password: ""
@@ -39,7 +39,10 @@ function Adminlogin() {
         if(response.data.success){
           toast.success("Logged in successfully.");
           // Redirect to dashboard
-          navigate("/admin/dashboard");
+          setTimeout(()=>{
+            navigate("/admin/dashboard");
+          }, 5000)
+          // navigate("/admin/dashboard");
         }
 
       }catch(e) {
