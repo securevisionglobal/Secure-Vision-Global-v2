@@ -109,9 +109,9 @@ module.exports.login = async(req, res)=>{
 module.exports.logout = async(req,res)=>{
     res.clearCookie('token', {
        httpOnly: false,
+       secure: true,
        sameSite: "None",
-        secure: true,
-        path: '/',
+       path: '/',
         // domain:'.secure-vision-global-v2.onrender.com',
          // Match the sameSite attribute used when setting the cookie
       });
