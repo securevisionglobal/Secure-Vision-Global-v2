@@ -90,12 +90,12 @@ module.exports.login = async(req, res)=>{
                 maxAge: 24 * 60 * 60 * 1000,
                 httpOnly: false,
                 secure: true,
+                sameSite: "None",
                 path: '/',
-                domain:'secure-vision-global-v2.onrender.com',
-                sameSite: "None"
+                domain:'.secure-vision-global-v2.onrender.com',
             })
             console.log('Cookie set:', res.getHeader('Set-Cookie'));
-            
+            console.log("document.cookie after login:", document.cookie);
             res.json({success: true, message: "Admin logged in successfully"})
         }else{
             return res.status(401).json( { success: false ,message: "Invalid credentials"})
@@ -109,9 +109,11 @@ module.exports.login = async(req, res)=>{
 module.exports.logout = async(req,res)=>{
     res.clearCookie('token', {
        httpOnly: false,
+       sameSite: "None",
         secure: true,
         path: '/',
-        sameSite: "None" // Match the sameSite attribute used when setting the cookie
+        domain:'.secure-vision-global-v2.onrender.com',
+         // Match the sameSite attribute used when setting the cookie
       });
     res.json({success: true ,message: "Admin logged out successfully"})
     
