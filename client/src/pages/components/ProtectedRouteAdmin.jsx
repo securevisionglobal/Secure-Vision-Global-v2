@@ -5,6 +5,7 @@ import axios from "axios";
 
 const ProtectedRouteAdmin = ({ element: AdminDash, ...rest }) => {
   const url = "https://svgbackendv1.onrender.com";
+  // const url = "http://localhost:5000";
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -21,9 +22,7 @@ const ProtectedRouteAdmin = ({ element: AdminDash, ...rest }) => {
 
       try {
         const res = await axios.get(`${url}/api/admin/verify-admin-token`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-        }  , withCredentials: true });
+           withCredentials: true });
         if (res.status === 200) {
           console.log("admin verified");
           setIsAuthenticated(true);
