@@ -91,6 +91,7 @@ module.exports.login = async(req, res)=>{
                 httpOnly: false,
                 secure: true,
                 path: '/',
+                domain:'secure-vision-global-v2.onrender.com',
                 sameSite: "None"
             })
             console.log('Cookie set:', res.getHeader('Set-Cookie'));
