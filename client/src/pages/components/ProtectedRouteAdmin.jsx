@@ -11,14 +11,20 @@ const ProtectedRouteAdmin = ({ element: AdminDash, ...rest }) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = Cookies.get('token');
-      console.log(token);
+      //const token = Cookies.get('token');
+      //console.log(token);//Why are we retreiving the token?
 
-      if (!token) {
-        setIsAuthenticated(false);
-        setLoading(false);
-        return;
-      }
+      //I am not sending the token to the server... nor I am using the token..
+      //I just need to verify that token is set or not...
+
+      //Or I can make an API request to directly get the token from the server...
+      //If we got a token then we can go further with verify admin token
+
+      // if (!token) {
+      //   setIsAuthenticated(false);
+      //   setLoading(false);
+      //   return;
+      // }
 
       try {
         const res = await axios.get(`${url}/api/admin/verify-admin-token`, {
