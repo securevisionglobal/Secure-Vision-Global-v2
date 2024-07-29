@@ -92,7 +92,7 @@ module.exports.login = async(req, res)=>{
                 secure: true,
                 path: '/',
                 sameSite: "None",
-                // domain:'.secure-vision-global-v2.onrender.com',
+                domain:'localhost',
             })
             console.log('Cookie set:', res.getHeader('Set-Cookie'));
             // console.log("document.cookie after login:", document.cookie);
@@ -112,6 +112,7 @@ module.exports.logout = async(req,res)=>{
        secure: true,
        path: '/',
        sameSite: "None",
+       domain:'localhost',
         // domain:'.secure-vision-global-v2.onrender.com',
          // Match the sameSite attribute used when setting the cookie
       });
