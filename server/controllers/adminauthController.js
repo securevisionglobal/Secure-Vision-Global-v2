@@ -92,7 +92,7 @@ module.exports.login = async(req, res)=>{
                 secure: true,
                 path: '/',
                 sameSite: "None",
-                domain:'localhost',
+                // domain:'localhost',
             })
             console.log('Cookie set:', res.getHeader('Set-Cookie'));
             // console.log("document.cookie after login:", document.cookie);
