@@ -40,11 +40,10 @@ function Adminlogin() {
           toast.success("Logged in successfully.");
           // Redirect to dashboard
 
-          console.log("Before Timeout document.cookie:", document.cookie);
-          setTimeout(()=>{
-            navigate("/admin/dashboard");
-          }, 5000)
-          // navigate("/admin/dashboard");
+          // console.log("Before Timeout document.cookie:", document.cookie);
+          navigate("/admin/dashboard");
+          // setTimeout(()=>{
+          // }, 5000)
         }
 
       }catch(e) {
