@@ -10,12 +10,6 @@ function ProtectRouteEmp({element: EmpDash, ...rest}) {
 
   useEffect(() => {
     const checkAuth = async() => {
-      const token = Cookies.get("emptoken");
-      if (!token) {
-        setIsAuthenticated(false);
-        setLoading(false);
-        return;
-      }
       try {
         const res = await axios.get(`${url}/api/user/verify-user`, { withCredentials: true });
         if (res.status === 200) {
