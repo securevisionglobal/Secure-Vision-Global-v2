@@ -112,7 +112,7 @@ module.exports.logout = async(req,res)=>{
        secure: true,
        path: '/',
        sameSite: "None",
-       domain:'localhost',
+    //    domain:'localhost',
         // domain:'.secure-vision-global-v2.onrender.com',
          // Match the sameSite attribute used when setting the cookie
       });
