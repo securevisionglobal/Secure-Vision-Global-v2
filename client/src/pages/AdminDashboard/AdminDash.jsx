@@ -6,7 +6,7 @@ import Followups from "./components/Followups/Followups";
 import Registeruser from "./components/RegisterUser/Registeruser";
 import Viewjobs from "./components/ViewJobs/Viewjobs";
 function AdminDash() {
-  const url = "https://svgbackendv1.onrender.com";
+  const url = "https://securevisionglobal-backend.onrender.com";
   // const url = "http://localhost:5000";
   const [activeComponent, setactiveComponent] = useState("Postjob");
   const renderComponent = () => {
