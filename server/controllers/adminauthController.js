@@ -94,7 +94,7 @@ module.exports.login = async(req, res)=>{
                 sameSite: "None",
                 // domain:'localhost',
             })
-            console.log('Cookie set:', res.getHeader('Set-Cookie'));
+            // console.log('Cookie set:', res.getHeader('Set-Cookie'));
             // console.log("document.cookie after login:", document.cookie);
             res.json({success: true, message: "Admin logged in successfully"})
         }else{
