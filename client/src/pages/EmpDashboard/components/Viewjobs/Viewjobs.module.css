@@ -1,22 +1,26 @@
-.head{
+.head {
     padding: 0 80px;
     display: flex;
     align-items: center;
     width: 100%;
     height: 100px;
     border-bottom: 0.5px solid #dcdcdc;
-}
-
-.head h1{
+  }
+  
+  .head h1 {
     font-size: 40px;
     color: #333;
     font-weight: bolder;
-}
-.cards {
+  }
+  .cards {
     display: flex;
+    align-items: start;
     padding: 10px;
     gap: 10px;
     flex-wrap: wrap;
+    width: 100%;
+    height: calc(100% - 100px);
+    overflow-x: scroll;
   }
   
   .jobcard {
@@ -24,6 +28,7 @@
     display: flex;
     flex-direction: column;
     align-items: start;
+    /* justify-content: center; */
     gap: 5px;
     padding: 30px;
     border-radius: 15px;
@@ -34,4 +39,10 @@
       font-size: 18px;
       font-weight: bolder;
       margin-right: 5px;
+  }
+  .delbtn{
+      padding: 8px 20px;
+      background-color: #ff2020;
+      color: white;
+      border-radius: 10px;
   }

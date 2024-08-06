@@ -12,6 +12,8 @@
     color: #333;
     font-weight: bolder;
 }
+
+
 .addCompany{
     width: 100%;
     height: 100px;
@@ -218,6 +220,7 @@ tbody td button{
   margin: 20px 0;
   gap: 20px;
 }
+
 .searchFilter input, .searchFilter select{
   width: 300px;
   padding: 8px 12px;
@@ -226,6 +229,12 @@ tbody td button{
   border-radius: 5px;
   outline: none;
   /* justify-content: center; */
+}
+@media (max-width: 768px) { 
+  .searchFilter{
+    flex-direction: column;
+  }
+  
 }
 .exportBtn{
   background-color: #4CAF50; /* Green background */
@@ -245,4 +254,58 @@ tbody td button{
   background-color: white; /* White background on hover */
   color: black; /* Black text on hover */
   border: 2px solid #4CAF50; /* Green border on hover */
+}
+
+
+@media (max-width: 425px) {
+  .head h1{
+    font-size: 30px;
+  }
+
+  .addCompany{
+    width: 100%;
+    gap: 10px;
+    /* padding: 10px 0; */
+  }
+  .addCompany input{
+    width: 200px;
+  }
+  .addCompany button{
+    width: 80px;
+    height: 40px;
+    font-size: 15px;
+  }
+
+  .updatehead, .infohead{
+    padding: 0 40px;
+    /* font-size: 20px; */
+  }
+  .updatehead h1, .infohead h1 {
+    font-size: 22px;
+  }
+
+  .form input, .form select{
+    width: 250px;
+  }
+  .form button{
+    width: 150px;
+    height: 40px;
+    font-size: 15px;
+  }
+
+  .searchFilter{
+    align-items: start;
+  }
+  .searchFilter input, .searchFilter select{
+    width: 220px;
+  }
+
+  .exportBtn{
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  .candidateTable{
+    overflow-y: scroll;
+  }
 }

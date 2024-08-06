@@ -82,6 +82,8 @@
 
 .wrapper{
     display: flex;
+    width: 100%;
+    height: calc(100% - 100px);
 }
 
 .userdata{
@@ -121,4 +123,45 @@
     color: wheat;
     border-radius: 5px;
     border: 1px solid #222;
+}
+
+
+@media (max-width: 425px) {
+    .head{
+        padding: 0 20px;
+    }
+    .head h1{
+        font-size: 25px;
+        white-space: nowrap;
+    }
+    .wrapper{
+        flex-direction: column;
+        overflow-x: scroll;
+    }
+
+    .form{
+        width: 90%;
+        padding: 20px 10px;
+        align-items: start;
+    }
+    .inputs{
+        width: 100%;
+    }
+    .input{
+        gap: 5px;
+    }
+    .form form{
+        gap: 10px;
+    }
+
+    .userdata{
+        /* width: 70%; */
+        padding: 20px;
+    }
+
+    .container{
+        width: 100%;
+        padding: 7px 20px;
+    }
+
 }

@@ -68,6 +68,11 @@
     .head h1{
         font-size: 4.5vw;
     }
+    .form{
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+    }
   }
 
   @media (max-width: 425px) {
@@ -90,9 +95,10 @@
     }
     .textarea{
         height: 150px;
+        /* width: 250px; */
     }
     .btn{
-        width: 50%;
+        width: 40%;
         padding: 5px;
     }
   }

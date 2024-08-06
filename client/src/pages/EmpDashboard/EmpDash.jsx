@@ -6,6 +6,7 @@ import Followups from "./components/Followups/Followups";
 
 function EmpDash() {
   const url = "https://svgbackendv1.onrender.com";
+  // const url = "http://localhost:5000";
   const [activeComponent, setActiveComponent] = useState("Viewjobs");
   const renderComponent = () => {
     switch (activeComponent) {
