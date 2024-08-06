@@ -24,7 +24,7 @@ app.use(
   cors({
     origin: [
         "http://localhost:5173",
-      "https://secure-vision-global-v2.onrender.com",
+      "https://svgfrontend-94kg.onrender.com",
     ],
     credentials: true,
   })
